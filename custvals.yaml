@@ -1,0 +1,204 @@
+global:
+  zkReplicaCount: 1
+sql-service:
+  enabled: false
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool
+  replicaCount: 0
+  service:
+    thrift:
+      type: "ClusterIP"
+solr:
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool
+  image:
+    tag: 8.3.1
+  updateStrategy:
+    type: "RollingUpdate"
+  javaMem: "-Xmx768m"
+  volumeClaimTemplates:
+    storageSize: "10Gi"
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: "667m"
+      memory: "957Mi"
+    requests:
+      cpu: "500m"
+      memory: "512Mi"
+  exporter:
+    enabled: false
+    podAnnotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "9983"
+      prometheus.io/path: "/metrics"
+    nodeSelector:
+      cloud.google.com/gke-nodepool: default-pool
+zookeeper:
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool
+  replicaCount: 1
+  persistence:
+    size: 5Gi
+  resources:
+    limits:
+      cpu: "250m"
+      memory: "384Mi"
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+  env:
+    ZK_HEAP_SIZE: 256M
+    ZK_PURGE_INTERVAL: 1
+ml-model-service:
+  enabled: false
+  image:
+    imagePullPolicy: "IfNotPresent"
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool
+  modelRepoImpl: fusion
+  fs:
+    enabled: true
+  javaToolOptions: "-Dlogging.level.com.lucidworks.fusion.ml=INFO"
+fusion-admin:
+  logstashEnabled: false
+  jvmOptions: "-Xmx448m -Xss256k -Dhttp.maxConnections=1000"
+  resources:
+    limits:
+      cpu: "667m"
+      memory: "512Mi"
+    requests:
+      cpu: "500m"
+      memory: "448Mi"
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool
+  readinessProbe:
+    initialDelaySeconds: 120
+fusion-indexing:
+  logstashEnabled: false
+  javaToolOptions: "-Xmx512m -Xss256k -Dhttp.maxConnections=1000"
+  resources:
+    limits:
+      cpu: "667m"
+      memory: "640Mi"
+    requests:
+      cpu: "500m"
+      memory: "448Mi"
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool
+  readinessProbe:
+    initialDelaySeconds: 120
+  pod:
+    annotations:
+      prometheus.io/port: "8765"
+      prometheus.io/scrape: "true"
+query-pipeline:
+  logstashEnabled: false
+  resources:
+    limits:
+      cpu: "667m"
+      memory: "448Mi"
+    requests:
+      cpu: "500m"
+      memory: "384Mi"
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool
+  javaToolOptions: "-Xmx384m -Xss256k -Dhttp.maxConnections=1000"
+  pod:
+    annotations:
+      prometheus.io/port: "8787"
+      prometheus.io/scrape: "true"
+admin-ui:
+  resources:
+    limits:
+      cpu: "50m"
+      memory: "100Mi"
+    requests:
+      cpu: "25m"
+      memory: "50Mi"
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool
+api-gateway:
+  logstashEnabled: false
+  resources:
+    limits:
+      cpu: "667m"
+      memory: "640Mi"
+    requests:
+      cpu: "333m"
+      memory: "448Mi"
+  javaToolOptions: "-Xmx512m"
+  externalTrafficPolicy: "Local"
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool
+  pod:
+    annotations:
+      prometheus.io/port: "6764"
+      prometheus.io/scrape: "true"
+auth-ui:
+  resources:
+    limits:
+      cpu: "50m"
+      memory: "75Mi"
+    requests:
+      cpu: "10m"
+      memory: "50Mi"
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool
+classic-rest-service:
+  enabled: false
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool
+devops-ui:
+  enabled: false
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool
+fusion-resources:
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool
+insights:
+  enabled: false
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool
+job-launcher:
+  enabled: false
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool
+job-rest-server:
+  logstashEnabled: false
+  resources:
+    limits:
+      cpu: "667m"
+      memory: "768Mi"
+    requests:
+      cpu: "500m"
+      memory: "512Mi"
+  javaToolOptions: "-Xmx640m"
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool
+logstash:
+  enabled: false
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool
+rest-service:
+  enabled: false
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool
+rpc-service:
+  enabled: false
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool
+rules-ui:
+  resources:
+    limits:
+      cpu: "50m"
+      memory: "75Mi"
+    requests:
+      cpu: "25m"
+      memory: "50Mi"
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool
+webapps:
+  enabled: false
+  nodeSelector:
+    cloud.google.com/gke-nodepool: default-pool
